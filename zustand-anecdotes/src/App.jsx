@@ -1,12 +1,9 @@
 import { useAnecdotes } from "./store";
 import Anecdote from "./components/Anecdote";
+import AnecdoteForm from "./components/AnecdoteForm";
 
 const App = () => {
   const anecdotes = useAnecdotes();
-
-  const vote = (id) => {
-    console.log("vote", id);
-  };
 
   return (
     <div>
@@ -14,13 +11,7 @@ const App = () => {
       {anecdotes.map((anecdote) => (
         <Anecdote key={anecdote.id} anecdote={anecdote} />
       ))}
-      <h2>create new</h2>
-      <form>
-        <div>
-          <input />
-        </div>
-        <button>create</button>
-      </form>
+      <AnecdoteForm />
     </div>
   );
 };
