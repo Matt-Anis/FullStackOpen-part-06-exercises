@@ -1,6 +1,6 @@
 import { useAnecdotes } from "./store";
-import Anecdote from "./components/Anecdote";
 import AnecdoteForm from "./components/AnecdoteForm";
+import AnecdoteList from "./components/AnecdoteList";
 
 const App = () => {
   const anecdotes = useAnecdotes();
@@ -8,9 +8,7 @@ const App = () => {
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map((anecdote) => (
-        <Anecdote key={anecdote.id} anecdote={anecdote} />
-      ))}
+      <AnecdoteList />
       <AnecdoteForm />
     </div>
   );

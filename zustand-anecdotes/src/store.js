@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useShallow } from "zustand/shallow";
 
 const anecdotesAtStart = [
   { content: "If it hurts, do it more often", votes: 0 },
@@ -48,6 +49,11 @@ const useAnecdoteStore = create((set) => ({
   },
 }));
 
-export const useAnecdotes = () => useAnecdoteStore((state) => state.anecdotes);
+export const useAnecdotes = () =>
+  useAnecdoteStore(
+    useShallow((state) =>
+      [...state.anecdotes].toSorted((a, b) => b.votes - a.votes),
+    ),
+  );
 export const useAnecdoteActions = () =>
   useAnecdoteStore((state) => state.actions);
