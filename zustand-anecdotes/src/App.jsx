@@ -1,24 +1,18 @@
-
-import { useAnecdotes } from './store'
+import { useAnecdotes } from "./store";
+import Anecdote from "./components/Anecdote";
 
 const App = () => {
-  const anecdotes = useAnecdotes()
+  const anecdotes = useAnecdotes();
 
-  const vote = id => {
-    console.log('vote', id)
-  }
+  const vote = (id) => {
+    console.log("vote", id);
+  };
 
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote => (
-        <div key={anecdote.id}>
-          <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
-          </div>
-        </div>
+      {anecdotes.map((anecdote) => (
+        <Anecdote key={anecdote.id} anecdote={anecdote} />
       ))}
       <h2>create new</h2>
       <form>
@@ -28,7 +22,7 @@ const App = () => {
         <button>create</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
