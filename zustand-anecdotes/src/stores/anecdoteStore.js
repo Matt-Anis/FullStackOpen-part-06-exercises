@@ -18,7 +18,7 @@ const useAnecdoteStore = create((set, get) => ({
     addAnecdote: async (content) => {
       const newAnecdote = await anecdoteService.create(asObject(content));
       set((state) => ({
-        anecdotes: [...state.anecdotes, asObject(newAnecdote)],
+        anecdotes: [...state.anecdotes, newAnecdote],
       }));
       useNotificationStore
         .getState()
@@ -45,6 +45,27 @@ const useAnecdoteStore = create((set, get) => ({
     initialize: async () => {
       const anecdotes = await anecdoteService.getAll();
       set({ anecdotes });
+    },
+
+    deleteAnecdote: async (id) => {
+      const anecdote = get().anecdotes.find((anecdote) => anecdote.id === id);
+
+      if (anecdote.votes > 0) {
+        useNotificationStore
+          .getState()
+          .actions.setNotification(
+            `You cannot delete ${anecdote.content} because it has votes`,
+          );
+        return;
+      }
+
+      await anecdoteService.remove(id);
+      set((state) => ({
+        anecdotes: state.anecdotes.filter((anecdote) => anecdote.id !== id),
+      }));
+      useNotificationStore
+        .getState()
+        .actions.setNotification(`Successfully deleted ${anecdote.content}`);
     },
   },
 }));

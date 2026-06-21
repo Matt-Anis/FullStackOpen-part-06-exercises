@@ -1,7 +1,7 @@
 import { useAnecdoteActions } from "../stores/anecdoteStore";
 
 const Anecdote = ({ anecdote }) => {
-  const { voteAnecdote } = useAnecdoteActions();
+  const { voteAnecdote, deleteAnecdote } = useAnecdoteActions();
 
   return (
     <div>
@@ -9,6 +9,9 @@ const Anecdote = ({ anecdote }) => {
       <div>
         has {anecdote.votes}
         <button onClick={() => voteAnecdote(anecdote.id)}>vote</button>
+        {!anecdote.votes && (
+          <button onClick={() => deleteAnecdote(anecdote.id)}>delete</button>
+        )}
       </div>
     </div>
   );
