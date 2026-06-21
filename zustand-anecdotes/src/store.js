@@ -35,6 +35,7 @@ const asObject = (anecdote) => ({
 
 const useAnecdoteStore = create((set) => ({
   anecdotes: anecdotesAtStart.map(asObject),
+  filter: "",
   actions: {
     addAnecdote: (anecdote) =>
       set((state) => ({ anecdotes: [...state.anecdotes, asObject(anecdote)] })),
@@ -46,14 +47,21 @@ const useAnecdoteStore = create((set) => ({
             : anecdote,
         ),
       })),
+    setFilter: (value) => set(() => ({ filter: value })),
   },
 }));
 
 export const useAnecdotes = () =>
   useAnecdoteStore(
-    useShallow((state) =>
-      [...state.anecdotes].toSorted((a, b) => b.votes - a.votes),
-    ),
+    useShallow((state) => {
+      const sortedAnecdotes = [...state.anecdotes].toSorted(
+        (a, b) => b.votes - a.votes,
+      );
+      const filteredAnecdotes = sortedAnecdotes.filter((anecdote) =>
+        anecdote.content.toLowerCase().includes(state.filter.toLowerCase()),
+      );
+      return filteredAnecdotes;
+    }),
   );
 export const useAnecdoteActions = () =>
   useAnecdoteStore((state) => state.actions);
