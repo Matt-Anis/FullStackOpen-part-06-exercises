@@ -1,29 +1,6 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
-
-const anecdotesAtStart = [
-  { content: "If it hurts, do it more often", votes: 0 },
-  {
-    content: "Adding manpower to a late software project makes it later!",
-    votes: 0,
-  },
-  {
-    content:
-      "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
-    votes: 0,
-  },
-  {
-    content:
-      "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
-    votes: 0,
-  },
-  { content: "Premature optimization is the root of all evil.", votes: 0 },
-  {
-    content:
-      "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
-    votes: 0,
-  },
-];
+import anecdoteService from "../services/anecdotes";
 
 const getId = () => (100000 * Math.random()).toFixed(0);
 
@@ -33,8 +10,8 @@ const asObject = (anecdote) => ({
   votes: 0,
 });
 
-const useAnecdoteStore = create((set) => ({
-  anecdotes: anecdotesAtStart.map(asObject),
+const useAnecdoteStore = create((set, get) => ({
+  anecdotes: [],
   filter: "",
   actions: {
     addAnecdote: (anecdote) =>
@@ -48,6 +25,10 @@ const useAnecdoteStore = create((set) => ({
         ),
       })),
     setFilter: (value) => set(() => ({ filter: value })),
+    initialize: async () => {
+      const anecdotes = await anecdoteService.getAll();
+      set({ anecdotes });
+    },
   },
 }));
 

@@ -1,7 +1,13 @@
 import Anecdote from "./Anecdote";
-import { useAnecdotes } from "../store";
+import { useAnecdotes, useAnecdoteActions } from "../store";
+import { useEffect } from "react";
 
 const AnecdoteList = () => {
+  const { initialize } = useAnecdoteActions();
+  useEffect(() => {
+    initialize();
+  }, [initialize]);
+
   const anecdotes = useAnecdotes();
 
   return (
