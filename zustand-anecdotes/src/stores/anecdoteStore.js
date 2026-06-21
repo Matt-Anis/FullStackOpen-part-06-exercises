@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
-import anecdoteService from "../services/anecdotes";
+import anecdoteService from "../../services/anecdotes";
+import useNotificationStore from "./notificationStore";
 
 const getId = () => (100000 * Math.random()).toFixed(0);
 
@@ -19,6 +20,9 @@ const useAnecdoteStore = create((set, get) => ({
       set((state) => ({
         anecdotes: [...state.anecdotes, asObject(newAnecdote)],
       }));
+      useNotificationStore
+        .getState()
+        .actions.setNotification(`You added ${newAnecdote.content}`);
     },
 
     voteAnecdote: async (id) => {
@@ -32,6 +36,9 @@ const useAnecdoteStore = create((set, get) => ({
           anecdote.id === id ? updatedAnecdote : anecdote,
         ),
       }));
+      useNotificationStore
+        .getState()
+        .actions.setNotification(`You voted up ${updatedAnecdote.content}`);
     },
 
     setFilter: (value) => set(() => ({ filter: value })),
