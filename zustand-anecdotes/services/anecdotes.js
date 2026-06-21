@@ -10,4 +10,20 @@ const getAll = async () => {
   return await response.json();
 };
 
-export default { getAll };
+const create = async (anecdote) => {
+  const config = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(anecdote),
+  };
+
+  const response = await fetch(baseUrl, config);
+
+  if (!response.ok) {
+    throw new Error("Failed to create new anecdote");
+  }
+
+  return await response.json();
+};
+
+export default { getAll, create };
