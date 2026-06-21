@@ -21,14 +21,19 @@ const useAnecdoteStore = create((set, get) => ({
       }));
     },
 
-    voteAnecdote: (id) =>
+    voteAnecdote: async (id) => {
+      const anecdote = get().anecdotes.find((anecdote) => anecdote.id === id);
+      const updatedAnecdote = await anecdoteService.update(id, {
+        ...anecdote,
+        votes: anecdote.votes + 1,
+      });
       set((state) => ({
         anecdotes: state.anecdotes.map((anecdote) =>
-          anecdote.id === id
-            ? { ...anecdote, votes: anecdote.votes + 1 }
-            : anecdote,
+          anecdote.id === id ? updatedAnecdote : anecdote,
         ),
-      })),
+      }));
+    },
+
     setFilter: (value) => set(() => ({ filter: value })),
     initialize: async () => {
       const anecdotes = await anecdoteService.getAll();
