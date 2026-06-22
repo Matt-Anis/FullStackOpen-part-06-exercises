@@ -4,7 +4,7 @@ const Anecdote = ({ anecdote }) => {
   const { voteAnecdote, deleteAnecdote } = useAnecdoteActions();
 
   return (
-    <div>
+    <div data-testid="anecdote">
       <div>{anecdote.content}</div>
       <div>
         has {anecdote.votes}
