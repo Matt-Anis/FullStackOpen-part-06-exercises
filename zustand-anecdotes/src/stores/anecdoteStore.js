@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { useShallow } from "zustand/shallow";
-import anecdoteService from "../../services/anecdotes";
+import anecdoteService from "../services/anecdotes";
 import useNotificationStore from "./notificationStore";
 
 const getId = () => (100000 * Math.random()).toFixed(0);
@@ -84,3 +84,4 @@ export const useAnecdotes = () =>
   );
 export const useAnecdoteActions = () =>
   useAnecdoteStore((state) => state.actions);
+export default useAnecdoteStore;
