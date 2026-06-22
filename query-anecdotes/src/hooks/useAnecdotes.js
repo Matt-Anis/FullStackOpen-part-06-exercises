@@ -19,10 +19,25 @@ export const useAnecdotes = () => {
     },
   });
 
+  const updateNoteMutation = useMutation({
+    mutationFn: updateAnecdote,
+    onSuccess: (updatedAnecdote) => {
+      const anecdotes = queryClient.getQueryData(["anecdotes"]);
+      queryClient.setQueryData(
+        ["anecdotes"],
+        anecdotes.map((a) =>
+          a.id === updatedAnecdote.id ? updatedAnecdote : a,
+        ),
+      );
+    },
+  });
+
   return {
     anecdotes: result.data,
     isError: result.isError,
     isPending: result.isPending,
     addAnecdote: (content) => newNoteMutation.mutate({ content, votes: 0 }),
+    voteUpAnecdote: (anecdote) =>
+      updateNoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 }),
   };
 };

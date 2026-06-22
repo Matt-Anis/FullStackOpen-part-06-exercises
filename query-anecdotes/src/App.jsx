@@ -3,10 +3,10 @@ import { useAnecdotes } from "./hooks/useAnecdotes";
 import Notification from "./components/Notification";
 
 const App = () => {
-  const { anecdotes, isError, isPending, addAnecdote } = useAnecdotes();
+  const { anecdotes, isError, isPending, voteUpAnecdote } = useAnecdotes();
 
   const handleVote = (anecdote) => {
-    console.log("vote");
+    voteUpAnecdote(anecdote);
   };
 
   if (isPending) {
