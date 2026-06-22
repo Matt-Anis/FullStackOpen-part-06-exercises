@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
 
-vi.mock("../services/anecdotes.js", () => ({
+vi.mock("../services/anecdotes", () => ({
   default: {
     getAll: vi.fn(),
     create: vi.fn(),
@@ -15,7 +15,6 @@ import useAnecdoteStore, {
   useAnecdotes,
   useAnecdoteActions,
 } from "./anecdoteStore";
-import anecdotes from "../services/anecdotes";
 
 beforeEach(() => {
   useAnecdoteStore.setState({ anecdotes: [], filter: "" });
