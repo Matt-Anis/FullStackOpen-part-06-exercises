@@ -22,3 +22,12 @@ it("displays anecdotes sorted by votes", () => {
   expect(items[1]).toHaveTextContent("mid anecdote");
   expect(items[2]).toHaveTextContent("worst anecdote");
 });
+
+it("receives a properly filtered list of anecdotes.", () => {
+  useAnecdoteStore.setState({ filter: "best" });
+  render(<AnecdoteList />);
+
+  const items = screen.getAllByTestId("anecdote");
+  expect(items).toHaveLength(1);
+  expect(items[0]).toHaveTextContent("best anecdote");
+});
