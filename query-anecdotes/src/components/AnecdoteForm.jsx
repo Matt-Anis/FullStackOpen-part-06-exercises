@@ -5,12 +5,16 @@ const AnecdoteForm = () => {
   const { addAnecdote } = useAnecdotes();
   const { showNotification } = useNotification();
 
-  const onCreate = (event) => {
+  const onCreate = async (event) => {
     event.preventDefault();
     const content = event.target.anecdote.value;
     event.target.reset();
-    addAnecdote(content);
-    showNotification("Anecdote created successfully!");
+    try {
+      await addAnecdote(content);
+      showNotification("Anecdote created successfully!");
+    } catch (error) {
+      showNotification(error.message);
+    }
   };
 
   return (
